@@ -52,8 +52,21 @@ const drop = table => {
       : console.log('droping table succeeded');
   });
 };
+
+const clearTable = table => {
+  console.log('clearing table');
+  let sql = `DELETE from ${table}`;
+  db.query(sql, (err, result) => {
+    err
+      ? console.log('clearing table issue')
+      : console.log('clearing table succeeded');
+  });
+};
 // creates table named Vasts
 // createTable('Vasts');
 
 // drop table named Vasts
 // drop('Vasts');
+
+// delete all from table named Vasts
+clearTable('Vasts');
