@@ -69,4 +69,4 @@ const clearTable = table => {
 // drop('Vasts');
 
 // delete all from table named Vasts
-clearTable('Vasts');
+// clearTable('Vasts');

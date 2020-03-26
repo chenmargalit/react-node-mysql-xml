@@ -14,10 +14,10 @@ const Cookie = require('js-cookie');
 const CreateModal = props => {
   const dispatch = useDispatch();
 
-  const [url, setUrl] = useState('http://google.com');
-  const [position, setPosition] = useState('top_left');
-  const [width, setWidth] = useState(130);
-  const [height, setHeight] = useState(130);
+  const [url, setUrl] = useState('');
+  const [position, setPosition] = useState('');
+  const [width, setWidth] = useState('');
+  const [height, setHeight] = useState('');
   const [error, setError] = useState('');
 
   const activateForm = () => (
@@ -26,7 +26,7 @@ const CreateModal = props => {
         required
         fluid
         label='url'
-        placeholder='url'
+        placeholder='url with protocol (http/https)'
         name='url'
         value={url}
         onChange={e => setUrl(e.target.value)}

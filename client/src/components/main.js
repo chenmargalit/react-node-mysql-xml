@@ -85,10 +85,3 @@ function Main() {
 }
 
 export default Main;
-
-// const deleteAll = async () => {
-//   const res = await axios.get('http://localhost:5000/delete');
-//   console.log('res is', res);
-// };
-
-// {<Button onClick={deleteAll}>Delete</Button>}

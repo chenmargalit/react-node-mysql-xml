@@ -13,6 +13,7 @@ const {
 router.post('/create_url', verifyToken, async (req, res) => {
   const op = 'create url';
   const { vast_url, position, width, height } = req.body[1];
+  console.log(vast_url);
   const valid = validateForm(vast_url, position, width, height)[0];
   // if data is valid, valid is true
   if (valid) {

@@ -21,19 +21,27 @@ const returnAllowedPositions = () => {
 // order of validation as a helper to find the right invalid field
 const validationOrder = ['url', 'position', 'width', 'height'];
 
-const allowedWidths = 'numbers between 100 and 1000';
+const allowedWidths = 'number between 100 and 1000';
 
+// as allowedPositionsArray have a space for better representation, we should validate the trimmed version
+let trimmedAllowedPositionsArray = allowedPositionsArray.map(position =>
+  position.trim()
+);
 // do some validation
 const validateForm = (url, position, height, width) => {
   let validateUrl =
     validator.isURL(url, { require_protocol: true }) &&
     validator.isLength(url, { min: 0, max: 600 });
-  let validatePosition =
-    allowedPositionsArray
-      .map(pos => position === pos)
-      .filter(bool => bool === true).length > 0
-      ? true
-      : false;
+
+  let validatePosition = trimmedAllowedPositionsArray.includes(position.trim())
+    ? true
+    : false;
+  console.log(validatePosition);
+  // .map(pos => position === pos)
+  // .filter(bool => bool === true).length > 0
+  // ? true
+  // : false;
+
   let validateHeight = height >= 100 && height <= 1000;
   let validateWidth = width >= 100 && width <= 1000;
 
