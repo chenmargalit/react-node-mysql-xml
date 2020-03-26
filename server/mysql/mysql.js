@@ -63,7 +63,7 @@ const clearTable = table => {
   });
 };
 // creates table named Vasts
-// createTable('Vasts');
+createTable('Vasts');
 
 // drop table named Vasts
 // drop('Vasts');
