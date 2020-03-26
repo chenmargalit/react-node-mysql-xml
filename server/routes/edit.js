@@ -10,7 +10,11 @@ const {
 
 // edit url function. Unfortunately this currently replaces all fields, this of course should be further optimized.
 router.patch('/edit_url', verifyToken, async (req, res) => {
-  const { id, url, position, width, height } = req.body[1];
+  let { id, url, position, width, height } = req.body[1];
+  // if width/height/position is empty, it gets the default (e.g 100/bottom_right)
+  width === '' ? (width = 100) : width;
+  height === '' ? (height = 100) : height;
+  position === '' ? (position = 'bottom_right') : position;
   const valid = validateForm(url, position, width, height)[0];
   if (valid) {
     try {

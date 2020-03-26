@@ -3,7 +3,6 @@ const router = express.Router();
 const verifyToken = require('../middleware/verifyToken');
 const e = 'error while trying to';
 const db = require('../mysql/mysql');
-
 const {
   validationOrder,
   validateForm
@@ -12,8 +11,11 @@ const {
 // create entire url (including the url itself, position, width and height)
 router.post('/create_url', verifyToken, async (req, res) => {
   const op = 'create url';
-  const { vast_url, position, width, height } = req.body[1];
-  console.log(vast_url);
+  let { vast_url, position, width, height } = req.body[1];
+  // if width/height/position is empty, it gets the default (e.g 100/bottom_right)
+  width === '' ? (width = 100) : width;
+  height === '' ? (height = 100) : height;
+  position === '' ? (position = 'bottom_right') : position;
   const valid = validateForm(vast_url, position, width, height)[0];
   // if data is valid, valid is true
   if (valid) {

@@ -27,7 +27,7 @@ const EditModal = props => {
         required
         fluid
         label='url'
-        placeholder='url'
+        placeholder='url with protocol (http/https)'
         name='url'
         value={url}
         onChange={e => setUrl(e.target.value)}

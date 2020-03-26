@@ -29,27 +29,29 @@ let trimmedAllowedPositionsArray = allowedPositionsArray.map(position =>
 );
 // do some validation
 const validateForm = (url, position, height, width) => {
+  console.log('width and height are', height, width);
+
   let validateUrl =
     validator.isURL(url, { require_protocol: true }) &&
     validator.isLength(url, { min: 0, max: 600 });
-
-  let validatePosition = trimmedAllowedPositionsArray.includes(position.trim())
-    ? true
-    : false;
-  console.log(validatePosition);
-  // .map(pos => position === pos)
-  // .filter(bool => bool === true).length > 0
-  // ? true
-  // : false;
-
-  let validateHeight = height >= 100 && height <= 1000;
-  let validateWidth = width >= 100 && width <= 1000;
+  let validatePosition;
+  // if validate position is not empty, do this validation, other pass true
+  if (position.length > 0) {
+    validatePosition = trimmedAllowedPositionsArray.includes(position.trim())
+      ? true
+      : false;
+  } else {
+    validatePosition = true;
+  }
+  // if height/width are empty, pass true, otherwise - validate its between 100 and 1000
+  let validateHeight = height === '' ? true : height >= 100 && height <= 1000;
+  let validationWidth = width === '' ? true : width >= 100 && width <= 1000;
 
   const validators = [
     validateUrl,
     validatePosition,
     validateHeight,
-    validateWidth
+    validationWidth
   ];
 
   // check wether all validators array returns true (e.g all is valid)
