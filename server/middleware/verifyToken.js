@@ -14,11 +14,9 @@ module.exports = verifyToken = (req, res, next) => {
     if (pass === hashPassword) {
       next();
     } else {
-      console.log('verifyToken did not pass');
       res.status(401).send('not verified');
     }
   } catch (e) {
-    console.log('verifyToken did not pass');
     res.status(401).send('not verified');
   }
 };

@@ -29,8 +29,6 @@ let trimmedAllowedPositionsArray = allowedPositionsArray.map(position =>
 );
 // do some validation
 const validateForm = (url, position, height, width) => {
-  console.log('width and height are', height, width);
-
   let validateUrl =
     validator.isURL(url, { require_protocol: true }) &&
     validator.isLength(url, { min: 0, max: 600 });
@@ -60,10 +58,17 @@ const validateForm = (url, position, height, width) => {
 
   return [valid, validators];
 };
+
+const returnErrorField = (url, position, width, height) => {
+  const validationArray = validateForm(url, position, width, height)[1];
+  const errorIndex = validationArray.indexOf(false);
+  return validationOrder[errorIndex];
+};
+
 module.exports = {
   allowedPositionsArray,
   returnAllowedPositions,
-  validationOrder,
   allowedWidths,
-  validateForm
+  validateForm,
+  returnErrorField
 };

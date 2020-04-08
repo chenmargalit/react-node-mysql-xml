@@ -21,17 +21,17 @@ module.exports = db = mysql.createPool({
 //   if (err) {
 //     console.log('problem with connecting to db', err);
 //   } else {
-//     console.log(`connected successfully to db Cheq`);
+//     console.log(`connected successfully to db`);
 //   }
 // });
 
 const createdb = () => {
   console.log('creating db');
-  let sql = `CREATE DATABASE cheq`;
+  let sql = `CREATE DATABASE`;
   sql.db.query(sql, (err, result) => {
     err
       ? console.log('error while trying to create db', err)
-      : console.log(`db cheq created successfully`, result);
+      : console.log(`db created successfully`, result);
   });
 };
 
@@ -63,7 +63,7 @@ const clearTable = table => {
   });
 };
 // creates table named Vasts
-createTable('Vasts');
+// createTable('Vasts');
 
 // drop table named Vasts
 // drop('Vasts');

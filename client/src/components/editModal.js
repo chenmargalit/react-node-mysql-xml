@@ -1,15 +1,14 @@
 import React, { useState, Fragment } from 'react';
 import { Modal, Form, Button } from 'semantic-ui-react';
-import axios from 'axios';
-import { STORE_UPDATED } from '../actions/types';
 import { useDispatch } from 'react-redux';
-import Cookie from 'js-cookie';
+import { editUrl } from '../actions/index';
 import {
   returnAllowedPositions,
   allowedWidths,
-  validationOrder,
-  validateForm
+  validateForm,
+  returnErrorField
 } from '../utils/modalUtils';
+import '../style/style.css';
 
 const EditModal = props => {
   const [id] = useState(props.chosen_item.id);
@@ -65,42 +64,24 @@ const EditModal = props => {
     </Form>
   );
 
-  const onSubmit = async e => {
+  const onSubmit = async () => {
     const valid = validateForm(url, position, width, height)[0];
-
     if (valid) {
       const data = {
         id,
         url,
-        position,
-        width,
-        height
+        url_position: position,
+        url_width: width,
+        url_height: height
       };
-
-      try {
-        // token sent to the server for verification. Passes through verifyToken middleware
-        const token = Cookie.get('token');
-        await axios.patch('http://localhost:5000/edit_url', [token, data]);
-        // notify useEffect in main.js that store has been updated and it should re-render
-        dispatch({ type: STORE_UPDATED });
-        props.modalClose();
-      } catch (err) {
-        if (err.response.status === 401) {
-          setError('unauthorized');
-        } else if (err.response.status === 500) {
-          setError(err.response.data);
-        } else {
-          setError('problem with editing data, please try again');
-        }
-      }
+      props.modalClose();
+      dispatch(editUrl(data));
     } else {
-      // get the invalid field
-      const validationArray = validateForm(url, position, width, height)[1];
-      const errorIndex = validationArray.indexOf(false);
-      const errorField = validationOrder[errorIndex];
+      const errorField = returnErrorField(url, position, width, height);
       setError(`problem with form validation in ${errorField} field`);
     }
   };
+
   return (
     <Fragment>
       <Modal
@@ -110,7 +91,7 @@ const EditModal = props => {
         onClose={props.modalClose}
       >
         <Modal.Header>
-          {!error ? 'Update url' : <h2 style={{ color: 'red' }}>{error}</h2>}
+          {!error ? 'Update url' : <h2 className='error'>{error}</h2>}
         </Modal.Header>
         <Modal.Content>{activateForm()}</Modal.Content>
         <Modal.Actions></Modal.Actions>

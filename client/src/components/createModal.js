@@ -1,20 +1,19 @@
 import React, { useState, Fragment } from 'react';
 import { Modal, Form, Button } from 'semantic-ui-react';
-import axios from 'axios';
 import { useDispatch } from 'react-redux';
-import { STORE_UPDATED } from '../actions/types';
+import { createUrl } from '../actions/index';
 import {
   returnAllowedPositions,
   allowedWidths,
-  validationOrder,
-  validateForm
+  validateForm,
+  returnErrorField
 } from '../utils/modalUtils';
-const Cookie = require('js-cookie');
+import '../style/style.css';
 
 const CreateModal = props => {
   const dispatch = useDispatch();
 
-  const [url, setUrl] = useState('');
+  const [url, setUrl] = useState('https://google.com');
   const [position, setPosition] = useState('');
   const [width, setWidth] = useState('');
   const [height, setHeight] = useState('');
@@ -64,39 +63,20 @@ const CreateModal = props => {
     </Form>
   );
 
-  const onSubmit = async e => {
+  const onSubmit = e => {
     const valid = validateForm(url, position, width, height)[0];
 
     if (valid) {
       const data = {
         vast_url: url,
-        position,
-        height,
-        width
+        url_position: position,
+        url_height: height,
+        url_width: width
       };
-      try {
-        // token sent to the server for verification. Passes through verifyToken middleware
-        const token = Cookie.get('token');
-        await axios.post('http://localhost:5000/create_url', [token, data]);
-        // notify useEffect in main.js that store has been updated and it should re-render
-        dispatch({ type: STORE_UPDATED });
-        props.modalClose();
-      } catch (err) {
-        if (err.response.status === 401) {
-          setError('unauthorized');
-        } else if (err.response.status === 500) {
-          console.log(err.response);
-          setError(err.response.data);
-        } else {
-          console.log(`problem with sending data on client side`, err);
-          setError('problem with creating url');
-        }
-      }
+      props.modalClose();
+      dispatch(createUrl(data));
     } else {
-      // get the invalid field
-      const validationArray = validateForm(url, position, width, height)[1];
-      const errorIndex = validationArray.indexOf(false);
-      const errorField = validationOrder[errorIndex];
+      const errorField = returnErrorField(url, position, width, height);
       setError(`problem with form validation in ${errorField} field`);
     }
   };
@@ -109,11 +89,7 @@ const CreateModal = props => {
         onClose={props.modalClose}
       >
         <Modal.Header>
-          {error ? (
-            <h3 style={{ color: 'red' }}>{error}</h3>
-          ) : (
-            <h1>Create the url</h1>
-          )}
+          {error ? <h3 className='error'>{error}</h3> : <h1>Create the url</h1>}
         </Modal.Header>
         <Modal.Content>{activateForm()}</Modal.Content>
         <Modal.Actions></Modal.Actions>

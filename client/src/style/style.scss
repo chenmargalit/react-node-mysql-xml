@@ -1,0 +1,13 @@
+$errorColor: red;
+$successColor: green;
+$fontSize: 20px;
+
+.error {
+  color: $errorColor;
+  font-size: $fontSize;
+}
+
+.success {
+  color: $successColor;
+  font-size: $fontSize;
+}
