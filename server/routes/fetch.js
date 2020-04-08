@@ -4,14 +4,6 @@ const verifyToken = require('../middleware/verifyToken');
 const db = require('../mysql/mysql');
 const { genFullXml, genEmptyXml } = require('../utils/utils');
 
-router.get('/delete', async (req, res) => {
-  let sql = 'delete from Vasts';
-  await db.query(sql, (err, result) => {
-    if (err) throw err;
-    res.send(result);
-  });
-});
-
 router.post('/get_urls', verifyToken, async (req, res) => {
   try {
     let sql = 'SELECT * FROM Vasts';
@@ -54,3 +46,13 @@ router.get(`/show_xml`, async (req, res) => {
 });
 
 module.exports = router;
+
+// not part of the assignment
+
+// router.get('/delete', async (req, res) => {
+//   let sql = 'delete from Vasts';
+//   await db.query(sql, (err, result) => {
+//     if (err) throw err;
+//     res.send(result);
+//   });
+// });
