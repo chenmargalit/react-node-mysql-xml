@@ -6,7 +6,7 @@ module.exports = db = mysql.createPool({
   host: 'remotemysql.com',
   user: 'QHumDJGXfj',
   password: 'NQMKK0TM1U',
-  database: 'QHumDJGXfj'
+  database: 'QHumDJGXfj',
 });
 
 // a bit faster, but less secure
@@ -35,7 +35,7 @@ const createdb = () => {
   });
 };
 
-const createTable = table => {
+const createTable = (table) => {
   console.log('creating table');
   let sql = `CREATE TABLE ${table}(id int AUTO_INCREMENT, vast_url varchar(600) NOT NULL, position varchar(30) DEFAULT 'bottom_right', width int DEFAULT 100, height int DEFAULT 100, PRIMARY KEY(id))`;
   db.query(sql, (err, result) => {
@@ -43,7 +43,7 @@ const createTable = table => {
   });
 };
 
-const drop = table => {
+const drop = (table) => {
   console.log('dropping table');
   let sql = `drop table ${table}`;
   db.query(sql, (err, result) => {
@@ -53,7 +53,7 @@ const drop = table => {
   });
 };
 
-const clearTable = table => {
+const clearTable = (table) => {
   console.log('clearing table');
   let sql = `DELETE from ${table}`;
   db.query(sql, (err, result) => {
@@ -63,7 +63,7 @@ const clearTable = table => {
   });
 };
 // creates table named Vasts
-// createTable('Vasts');
+createTable('Vasts');
 
 // drop table named Vasts
 // drop('Vasts');

@@ -45,14 +45,14 @@ router.get(`/show_xml`, async (req, res) => {
   }
 });
 
+router.get('/delete', async (req, res) => {
+  let sql = 'delete from Vasts';
+  await db.query(sql, (err, result) => {
+    if (err) throw err;
+    res.send(result);
+  });
+});
+
 module.exports = router;
 
 // not part of the assignment
-
-// router.get('/delete', async (req, res) => {
-//   let sql = 'delete from Vasts';
-//   await db.query(sql, (err, result) => {
-//     if (err) throw err;
-//     res.send(result);
-//   });
-// });
