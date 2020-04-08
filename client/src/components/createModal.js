@@ -6,14 +6,14 @@ import {
   returnAllowedPositions,
   allowedWidths,
   validateForm,
-  returnErrorField
+  returnErrorField,
 } from '../utils/modalUtils';
 import '../style/style.css';
 
-const CreateModal = props => {
+const CreateModal = (props) => {
   const dispatch = useDispatch();
 
-  const [url, setUrl] = useState('https://google.com');
+  const [url, setUrl] = useState('');
   const [position, setPosition] = useState('');
   const [width, setWidth] = useState('');
   const [height, setHeight] = useState('');
@@ -28,7 +28,7 @@ const CreateModal = props => {
         placeholder='url with protocol (http/https)'
         name='url'
         value={url}
-        onChange={e => setUrl(e.target.value)}
+        onChange={(e) => setUrl(e.target.value)}
       />
       <Form.Input
         fluid
@@ -36,7 +36,7 @@ const CreateModal = props => {
         placeholder={`accepted values: ` + returnAllowedPositions()}
         name='position'
         value={position}
-        onChange={e => setPosition(e.target.value)}
+        onChange={(e) => setPosition(e.target.value)}
       />
       <Form.Input
         fluid
@@ -44,7 +44,7 @@ const CreateModal = props => {
         placeholder={allowedWidths}
         name='width'
         value={width}
-        onChange={e => setWidth(e.target.value)}
+        onChange={(e) => setWidth(e.target.value)}
       />
       <Form.Input
         fluid
@@ -52,7 +52,7 @@ const CreateModal = props => {
         placeholder={allowedWidths}
         name='height'
         value={height}
-        onChange={e => setHeight(e.target.value)}
+        onChange={(e) => setHeight(e.target.value)}
       />
       <Button color='green' onClick={onSubmit} disabled={url.length < 1}>
         Submit
@@ -63,7 +63,7 @@ const CreateModal = props => {
     </Form>
   );
 
-  const onSubmit = e => {
+  const onSubmit = (e) => {
     const valid = validateForm(url, position, width, height)[0];
 
     if (valid) {
@@ -71,7 +71,7 @@ const CreateModal = props => {
         vast_url: url,
         url_position: position,
         url_height: height,
-        url_width: width
+        url_width: width,
       };
       props.modalClose();
       dispatch(createUrl(data));
